@@ -26,9 +26,10 @@ def list_collections():
 
 def get_items(db, collection):
     items = dict()
-    for i in range(len(active.db.collection.objects)):
-        pass
+
 
 connect_to_mongo()
-cursor=list(active['UserInfo']['users'].find({}))[0]
-print(cursor.keys())
+
+cursor = active['UsersInfo']['Users'].find
+gen = (i for i in cursor)
+print(next(gen))

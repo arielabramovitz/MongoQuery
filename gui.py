@@ -190,6 +190,8 @@ class Ui_MainWindow(object):
         for item in get_items(self.comboBox_2.currentText(), self.comboBox_3.currentText()):
             count += 1
             self.tableWidget.setItem()
+
+
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
