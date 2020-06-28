@@ -1,11 +1,5 @@
 from mongoengine import *
-from mongoengine.context_managers import *
 import datetime
-import binascii
-
-connect(alias='UsersInfo', db='UsersInfo')
-connect(alias='ClientsInfo' ,db='ClientsInfo')
-
 
 class Users(Document):
     username = StringField(required=True, unique=True, max_length=30)
@@ -15,9 +9,25 @@ class Users(Document):
     bio = StringField(max_length=100)
     admin = BooleanField(default=False)
 
+    def __str__(self):
+        return f'Username: {self.username}, Email: {self.email}'
+
+    def fields():
+        return [i for i in Users._fields_ordered]
+
+    def dict(self):
+        return {
+            'username': self.username,
+            'password': self.password,
+            'email': self.email,
+            'registration_date': self.registration_date,
+            'bio': self.bio,
+            'admin': self.admin
+        }
+
     meta = {'db_alias': 'UsersInfo', 'collection': 'Users'}
 
-class Client(Document):
+class Clients(Document):
     username = StringField(required=True, unique=True, max_length=30)
     password = BinaryField(required=True)
     email = EmailField(required=True)
@@ -26,7 +36,9 @@ class Client(Document):
 
     meta = {'db_alias': 'ClientsInfo', 'collection': 'Clients'}
 
-with switch_db(Client, 'ClientsInfo') as Client:
-    with switch_collection(Client, 'Clients') as Client:
-        user = Client(username='ariel2', password=binascii.a2b_base64('20051996'), email='ariel2@gmail.com').save()
+# with switch_db(Client, 'ClientsInfo') as Client:
+#     with switch_collection(Client, 'Clients') as Client:
+#         user = Client(username='ariel2', password=binascii.a2b_base64('20051996'), email='ariel2@gmail.com').save()
+
+# user = Client(username='ariel4', password=binascii.a2b_base64('20051996'), email='ariel4@gmail.com').save()
 

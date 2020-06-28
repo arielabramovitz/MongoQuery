@@ -1,14 +1,14 @@
-from PyQt5.QtWidgets import QMessageBox
-# from gui import *
+from MongoDocuments import *
 from mongoengine import *
-import mongoengine
+
 
 active = None
 
 
 def connect_to_mongo():
     global active
-    active = connect(host='localhost', port=27017)
+    active = [connect(host='localhost', port=27017, db='UsersInfo', alias='UsersInfo'),
+              connect(host='localhost', port=27017, db='ClientsInfo', alias='ClientsInfo')]
     return active
 
 
@@ -25,11 +25,15 @@ def list_collections():
     return collections
 
 def get_items(db, collection):
-    items = dict()
-
+    items_as_dicts = None
+    if db == 'UsersInfo' and collection == 'Users':
+        items_as_dicts = [i.dict() for i in Users.objects]
+    elif db == 'ClientsInfo' and collection == 'Clients':
+        items_as_dicts = [i.dict() for i in Clients.objects]
+    return items_as_dicts
 
 connect_to_mongo()
 
-cursor = active['UsersInfo']['Users'].find
-gen = (i for i in cursor)
-print(next(gen))
+objects = Users.objects
+print(Users.fields())
+print(get_items('UsersInfo','Users'))
