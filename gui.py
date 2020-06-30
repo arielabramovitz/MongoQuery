@@ -167,6 +167,7 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
         self.comboBox_2.currentTextChanged.connect(self.on_dbs_textchange)
+        self.pushButton_4.clicked.connect(self.on_refresh_click)
 
     def on_connect(self):
         if self.comboBox.currentText() == "Mongo Localhost":
@@ -184,12 +185,13 @@ class Ui_MainWindow(object):
         self.comboBox_3.clear()
         self.comboBox_3.addItems(collections[db])
 
+
     def on_refresh_click(self):
         count = 0
         self.tableWidget.clear()
-        for item in get_items(self.comboBox_2.currentText(), self.comboBox_3.currentText()):
+        for i in list(get_items(self.comboBox_2.currentText(), self.comboBox_3.currentText()).keys()):
             count += 1
-            self.tableWidget.setItem()
+            self.tableWidget.insertRow(count)
 
 
     def retranslateUi(self, MainWindow):
