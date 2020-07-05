@@ -15,7 +15,7 @@ class Users(Document):
 
     @staticmethod
     def fields():
-        return [i for i in Users.fields_ordered]
+        return [i for i in Users._fields_ordered]
 
     def dict(self):
         return {
@@ -36,6 +36,19 @@ class Clients(Document):
     registration_date = datetime.datetime.now().strftime("%d/%m/%Y at %H:%M")
     bio = StringField(max_length=100)
 
+    @staticmethod
+    def fields():
+        return [i for i in Users._fields_ordered]
+
+    def dict(self):
+        return {
+            'username': self.username,
+            'password': self.password,
+            'email': self.email,
+            'registration_date': self.registration_date,
+            'bio': self.bio
+        }
+
     meta = {'db_alias': 'ClientsInfo', 'collection': 'Clients'}
 
 # with switch_db(Client, 'ClientsInfo') as Client:
@@ -45,3 +58,4 @@ class Clients(Document):
 # connection2 = connect(alias='UsersInfo', db='UsersInfo', host='localhost', port=27017)
 # user = Users(username='ariel4', password=binascii.a2b_base64('20051996'), email='ariel4@gmail.com').save()
 
+print(Users.fields())
