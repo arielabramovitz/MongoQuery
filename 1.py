@@ -33,7 +33,7 @@ class Ui_MainWindow(object):
 
     def connect_to_db(self):
         Connection()
-
+    # fix this
     def add_rows(self,coll):
         if coll == 'Users':
             for i in range(len(Connection.get_objects(Connection.current_active, 'UsersInfo', 'Users'))):
@@ -41,7 +41,14 @@ class Ui_MainWindow(object):
             for i in MongoDocuments.Users.fields():
                 current_column_count = self.tableWidget.columnCount()
                 self.tableWidget.insertColumn(current_column_count)
-                self.tableWidget.setHorizontalHeaderItem()
+            self.tableWidget.setHorizontalHeaderLabels(MongoDocuments.Users.fields())
+            objects = MongoDocuments.Users.objects
+            obj_dict_list = [i.dict() for i in objects]
+            for row_num in range(len(obj_dict_list)):
+                keys = [str(i) for i in obj_dict_list[row_num].keys()]
+                for col_num in range(len(obj_dict_list[row_num])-1):
+                    for key in keys:
+                        print(objects[row_num][key])
 
 
 
